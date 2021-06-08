@@ -26,6 +26,10 @@ Olen pyrkinyt kommentoimaan koodin sekaan, jos koodissa on käytetty muuta kuin 
 
 Kehityksessä käytin Gittiä, tosin tajusin, että sitä pitää käyttää, vasta loppumetreillä, mutta aika monta committia olen kuitenkin ehtinyt jo tehdä sekä serveripuolella, että frontend-puolella. Tarvittaessa minulta löytyy koodin aikaisempia kehitysversioita koneelta.
 
+Palvelun MongoDB-tietokanta on MongoDB Atlas-palvelussa ja serveri on Herokussa. Frontend-sovellus on Firebasessa.
+
 ## Huomioita kehityksestä
 
 Harjoitustyö oli mielenkiintoinen ja siitä sai juuri niin haastavan kuin halusi. Monessa kohtaa meni hetkeksi sormi suuhun, mutta ratkaisu löytyi aina netistä googlettamalla ja Youtube -videoita katsomalla. Youtubesta löytyy lukematon määrä hyödyllisiä "kursseja" tai opasvideoita, osa niistä on hyvinkin valaisevia. Web-kehittäjän kurssi antoi lopputyölle erittäin hyvä puitteet, oli erittäin hyödyllistä että kurssilla käytiin koodeja läpi ja niitä tehtiin opettajan opastuksella. Haasteeksi on meinannut nousta se, että koodaamisesta ei meinaa tulla loppua. Sovellukseen keksii koko ajan lisää ominaisuuksia, joita siihen haluaisi tehdä. Toisaalta kuitenkin totesin, että lopputyö pitää saada palautettua - koodin lisäämistä voi jatkaa myöhemmin.
+
+Ehdottamasti sovelluksen pitäisi tukea paremmin eri päätelaitteita, eli olla responsiivisempi. Lisäksi, jos kirjautuu adminina, ja poistaa tietokannasta rivejä, taulun päivittyminen kestää kauan. Eli joko taulun rivimääriä pitäisi rajoittaa tai sitten tehdä valmiiksi valittavaksi hakukriteereitä, jolloin tulostaulu olisi pienempi. Onneksi normaali käyttäjä ei pääse poistamaan tietokannan rivejä, mutta on todennäköistä, että otan tietokannan kokonaan pois käytöstä, koska se ei ole palvelun kannalta oleellinen.
