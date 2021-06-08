@@ -1,0 +1,39 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~leaflet/dist/leaflet.css';
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+table {
+  padding: 0px;
+  font-size: 12px;
+  text-align: center;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table,
+td,
+th {
+  border: 1px solid rgb(17, 103, 233);
+}
+
+th {
+  height: 20px;
+}
+
+nav a.active {
+  color: lightblue;
+  font-weight: lighter;
+}
+
+.bold {
+  font-weight: bold;
+}

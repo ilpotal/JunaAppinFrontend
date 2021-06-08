@@ -1,0 +1,191 @@
+<div class="container-fluid">
+
+
+
+  <div style="margin-top: 20px; margin-bottom: 20px">
+
+    <div class="form-group">
+
+      <label for="asema">Valitse asema, jonne haluat matkustaa asemalta {{_freeApiService.lahinasema_nimi}} </label>
+      <br>
+      <br>
+
+      <select class="form-controla" id="asema" name="asema" [(ngModel)]="asema"
+        (ngModelChange)='haeasemaltaLahtevat($event)'>
+        <option *ngFor="let asem of asemat" [value]="asem.aseman_lyhenne">
+          {{asem.aseman_nimi}}
+
+
+        </option>
+
+      </select>
+
+    </div>
+  </div>
+
+
+  <div *ngIf="showTitles" style="margin-top: 20px; margin-bottom: 20px">
+
+    <h6>Suorat junayhteydet:</h6>
+    <table class="min">
+      <!--Vaihdetaan näytettävä taulukko kapeampaan, eli poistetaan sarakkeita näkyviltä. Kapeampi näyttö.-->
+
+
+      <thead>
+        <tr>
+          <th>Junan nro min</th>
+          <!-- <th>Tyyppi</th> -->
+          <!--<th>Lähtö</th>-->
+          <th>Lähtöpäivä</th>
+          <th>Lähtöaika</th>
+          <!--<th>Väliasemat</th>-->
+          <th>Kohde</th>
+
+          <th>Tuloaika</th>
+
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ass of lahtevat">
+
+
+          <td>{{ass.junan_numero}}</td>
+          <!--<td>{{ass.juna_tyyppi}}</td>-->
+          <!-- <td>{{ass.lahtoaseman_nimi}}</td>-->
+          <td>{{ass.lahtoaseman_lahtopaiva}}</td>
+          <td>{{ass.lahtoaseman_lahtoaika}}</td>
+          <!--<td><button title="Valiasemat" (click)="haeValiasemat(ass.id)">Näytä väliasemat</button></td>-->
+          <td>{{ass.saapumisaseman_nimi}}</td>
+          <td>{{ass.saapumisaseman_saapumisaika}}</td>
+
+
+        </tr>
+      </tbody>
+
+    </table>
+
+    <table class="max">
+      <!--Vaihdetaan näytettävä taulukko leveämpään, eli lisätään sarakkeita näkyviltä. Leveämpi näyttö.-->
+
+
+      <thead>
+        <tr>
+          <th>Junan nro max</th>
+          <th>Tyyppi</th>
+          <th>Lähtö</th>
+          <th>Lähtöpäivä</th>
+          <th>Lähtöaika</th>
+          <th>Välisemat</th>
+          <th>Kohde</th>
+
+          <th>Tuloaika</th>
+
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ass of lahtevat">
+
+
+          <td>{{ass.junan_numero}}</td>
+          <td>{{ass.juna_tyyppi}}</td>
+          <td>{{ass.lahtoaseman_nimi}}</td>
+          <td>{{ass.lahtoaseman_lahtopaiva}}</td>
+          <td>{{ass.lahtoaseman_lahtoaika}}</td>
+          <td><button title="Valiasemat" (click)="haeValiasemat(ass.id)">Näytä väliasemat</button></td>
+          <td>{{ass.saapumisaseman_nimi}}</td>
+          <td>{{ass.saapumisaseman_saapumisaika}}</td>
+
+
+        </tr>
+      </tbody>
+
+    </table>
+    <br>
+    <span *ngFor="let ass of lahtevat">
+      <p *ngIf="ass.info">{{ass.info}}</p>
+
+    </span>
+    <p><code
+        *ngIf="showTitles">Liikennetietojen lähde <a href="https://tmfg.fi/">Fintraffic</a> / <a href="https://www.digitraffic.fi/">D</a><a href="https://www.digitraffic.fi/">igitraffic</a>, <a href="http://creativecommons.org/licenses/by/4.0/">CC 4.0 BY</a></code>
+    </p>
+
+  </div>
+  <div *ngIf="showValiasTitles" style="margin-top: 20px; margin-bottom: 20px">
+
+    <h6>Väliasemat: </h6>
+
+    <table class="max">
+      <!--Vaihdetaan näytettävä taulukko leveämpään, eli lisätään sarake näkyviin. Leveämpi näyttö.-->
+      <thead>
+        <tr>
+          <th>Väliasema</th>
+          <th>Pysähtyykö</th>
+          <!--<th>Ottaako/jättääkö matkustajia</th>-->
+          <th>Väliaseman tapahtuma</th>
+          <th>Aika</th>
+
+
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let valiass of valiasemat">
+
+
+          <td>{{valiass.valiaseman_nimi}}</td>
+          <td>{{valiass.valiasema_pysahdys}}</td>
+          <!--<td>{{valiass.kaupallinen_pysahdys}}</td>-->
+          <td>{{valiass.valiaseman_tapahtuma}}</td>
+          <td>{{valiass.valiaseman_tapahtumaaika}}</td>
+
+
+
+        </tr>
+      </tbody>
+
+
+    </table>
+
+    <table class=min>
+      <!--Vaihdetaan näytettävä taulukko kapeampaan, eli poistetaan sarake näkyviltä. Kapeampi näyttö.-->
+      <thead>
+        <tr>
+          <th>Väliasema</th>
+          <th>Pysähtyykö</th>
+          <!--<th>Ottaako/jättääkö matkustajia</th>-->
+          <!--<th>Väliaseman tapahtuma</th>-->
+          <th>Aika</th>
+
+
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let valiass of valiasemat">
+
+
+          <td>{{valiass.valiaseman_nimi}}</td>
+          <td>{{valiass.valiasema_pysahdys}}</td>
+          <!--<td>{{valiass.kaupallinen_pysahdys}}</td>-->
+          <!--<td>{{valiass.valiaseman_tapahtuma}}</td>-->
+          <td>{{valiass.valiaseman_tapahtumaaika}}</td>
+
+
+
+        </tr>
+      </tbody>
+
+
+    </table>
+    <br>
+    <span *ngIf="valias">
+      <p>Ei väliasemia</p>
+    </span>
+  </div>
+</div>

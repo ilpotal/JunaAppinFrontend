@@ -1,0 +1,16 @@
+/* Kokonaan omaa koodia. Tällä valitaan milloin näytetään enemmän ja milloin vähemmän sarakkeita tulosteessa.*/
+.max {
+  display: table;
+}
+.min {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .max {
+    display: none;
+  }
+  .min {
+    display: table;
+  }
+}

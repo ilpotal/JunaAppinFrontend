@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+
+  <a class="navbar-brand" href="#">JunaAppi</a>
+
+
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+
+      <li class="nav-item" *ngIf="!login && _regservice.regtext"><a class="nav-link" href="#" routerLink="/login"
+          routerLinkActive="active">Nyt voit kirjautua tästä palveluun</a>
+      </li>
+
+      <li class="nav-item" *ngIf="!login && !_regservice.regtext">
+        <a class="nav-link" href="#" routerLink="/login" routerLinkActive="active">Kirjaudu palveluun</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="#" routerLink="/kartta" routerLinkActive="active">Aloitussivu</a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="canshow.canshow" class="nav-link" href="#" routerLink="/juna"
+          routerLinkActive="active">Juna-aikataulut</a>
+      </li>
+      <li *ngIf="login" class="nav-item">
+        <a class="nav-link" href="#" routerLink="/tietokanta" routerLinkActive="active">Tietokanta</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="#" routerLink="/ohje" routerLinkActive="active">Ohjeet</a>
+      </li>
+      <li *ngIf="login" class="nav-item">
+        <a class="nav-link" href="#" routerLink="/user" routerLinkActive="active">Käyttäjätiedot</a>
+      </li>
+      <li *ngIf="login" class="nav-item">
+        <a class="nav-link" href="#" routerLink="/kartta" (click)="doLogout()">Kirjaudu ulos</a>
+      </li>
+
+      <li *ngIf="!login && !_regservice.regtext" class="nav-item"><a class="nav-link" href="#" routerLink="/register"
+          routerLinkActive="active">
+          Rekisteröidy</a>
+      </li>
+    </ul>
+
+
+  </div>
+
+
+</nav>

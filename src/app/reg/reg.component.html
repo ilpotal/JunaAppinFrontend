@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <br>
+  <br>
+  <h6 style="color: green">Rekisteröidy JunaApp-sovelluksen käyttäjäksi.</h6>
+
+  <br>
+  <!--<div class="d-flex mt-3 mb-3">Login</div>-->
+  <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+    <div class="form-group">
+      <label for="tunnus">Anna käyttäjätunnus:</label>
+      <input type="text" class="form-control" name="tunnus" ngModel minlength="6" maxlength="15" required />
+      <!-- jos lomakkeella ei ole required-virhettä tai se on koskematon niin span on piilotettu-->
+      <span style="color: red" [hidden]="!f.form.hasError('required', 'tunnus')|| f.pristine">Tunnus
+        vaaditaan</span>
+      <span style="color: red" [hidden]="!f.form.hasError('minlength', 'tunnus')|| f.pristine">Pituus 8 - 15
+        merkkiä</span>
+      <span style="color: red" [hidden]="!f.form.hasError('maxlength', 'tunnus')|| f.pristine">Pituus enintään 15
+        merkkiä</span><br>
+      <label for="salasana">Anna salasana:</label>
+      <input #password="ngModel" type="password" class="form-control" name="salasana" ngModel
+        pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$" maxlength="15" required />
+      <!-- jos lomakkeella ei ole required-virhettä tai se on koskematon niin span on piilotettu-->
+      <span style="color: red" [hidden]="!f.form.hasError('required', 'salasana')|| password.pristine">Salasana
+        vaaditaan</span>
+      <span style="color: red" [hidden]="!f.form.hasError('maxlength', 'salasana')|| password.pristine">Pituus enintään
+        15 merkkiä</span>
+      <!-- jos lomakkeella ei ole pattern-virhettä tai se on koskematon niin span on piilotettu-->
+      <span style="color: red" [hidden]="!f.form.hasError('pattern', 'salasana')">8 - 15 merkkiä, vähintään
+        yksi kirjain, yksi numero ja yksi erikoismerkki</span><br><br>
+      <!--Rekisteröidy-nappi näytetään disabloituna niin kauan kuin lomakkeella on virheitä.-->
+      <button type="submit" [disabled]="f.invalid">Rekisteröidy</button>
+    </div>
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+    <!--Tässä näytetään mahdollinen virheilmoitus.-->
+  </form>
+</div>

@@ -1,0 +1,157 @@
+.map-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+#map {
+  position: relative;
+  top: 50px;
+  height: 500px;
+  width: 800px;
+  text-align: center;
+}
+
+.btn-circle.btn-xl {
+  width: 120px;
+  height: 120px;
+  padding: 10px 16px;
+  border-radius: 35px;
+  font-size: 17px;
+  text-align: center;
+}
+
+.locbutton {
+  position: relative;
+  top: 5px;
+  text-align: center;
+  height: 120px;
+  width: 100%;
+}
+
+.teksti {
+  font-size: 80%;
+  top: 0px;
+  position: relative;
+
+  height: 30px;
+  width: 100%;
+
+  text-align: center;
+}
+
+.liikenne {
+  position: relative;
+  top: 594px;
+  width: 100%;
+
+  text-align: center;
+  font-size: 75%;
+}
+
+@media screen and (max-width: 1000px) {
+  #map {
+    position: relative;
+    top: 50px;
+    height: 400px;
+    width: 600px;
+  }
+
+  .btn-circle.btn-xl {
+    width: 120px;
+    height: 120px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 17px;
+    text-align: center;
+  }
+
+  .liikenne {
+    position: relative;
+    top: 488px;
+    width: 100%;
+
+    text-align: center;
+    font-size: 75%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #map {
+    position: relative;
+    top: 50px;
+    height: 350px;
+    width: 500px;
+  }
+
+  .btn-circle.btn-xl {
+    width: 120px;
+    height: 120px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 17px;
+    text-align: center;
+  }
+
+  .liikenne {
+    position: relative;
+    top: 432px;
+    width: 100%;
+
+    text-align: center;
+    font-size: 75%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  #map {
+    position: relative;
+    top: 50px;
+    height: 300px;
+    width: 350px;
+  }
+
+  .btn-circle.btn-xl {
+    width: 120px;
+    height: 120px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 17px;
+    text-align: center;
+  }
+
+  .liikenne {
+    position: relative;
+    top: 388px;
+    width: 100%;
+
+    text-align: center;
+    font-size: 75%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #map {
+    position: relative;
+    top: 50px;
+    height: 300px;
+    width: 300px;
+  }
+
+  .btn-circle.btn-xl {
+    width: 120px;
+    height: 120px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 17px;
+    text-align: center;
+  }
+
+  .liikenne {
+    position: relative;
+    top: 386px;
+    width: 100%;
+
+    text-align: center;
+    font-size: 75%;
+  }
+}

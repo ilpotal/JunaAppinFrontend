@@ -1,0 +1,37 @@
+<div style="margin-top: 20px; margin-bottom: 20px">
+
+  <div class="container-fluid">
+
+    <div style="margin-top: 20px; margin-bottom: 20px">
+
+
+      <h5 style="color:rgb(17, 103, 233)">Palvelussa olevat käyttäjätietosi</h5>
+      <br>
+
+      <div class="card">
+        <div class="card-body">
+
+
+          <p style="color:rgb(17, 103, 233)">Käyttäjätunnus: {{_authservice.username}}</p><br>
+          <p style="color:rgb(17, 103, 233)">Rekisteröitymispäivä (kk/pp/vvvv): {{_authservice.regday}}</p><br>
+          <p style="color:rgb(17, 103, 233)">Olet kirjautunut palveluun {{_authservice.visits}} kertaa</p><br>
+
+          <!--<div class="d-flex mt-3 mb-3">Login</div>-->
+
+        </div>
+      </div>
+
+      <br>
+
+
+      <p>
+        <input type="button" class="btn btn-danger" value="Poistan tunnukseni" (click)="delete(_authservice.username)">
+
+      </p>
+
+      <p style="color:red">Huom! Kun painat Poista tunnukseni -nappia, tunnuksesi poistetaan palvelusta ja sinut
+        siirretään
+        palvelun etusivulle.</p>
+    </div>
+  </div>
+</div>

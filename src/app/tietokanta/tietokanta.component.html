@@ -1,0 +1,54 @@
+<div class="container-fluid">
+
+  <!--
+
+  <select class="form-controla" id="asema" name="asema" [(ngModel)]="trainnumber"
+    (ngModelChange)='haeTietokannastaJuna($event)' data-toggle="dropdown">
+    <option [value]="trainnumber">Pendolino</option>
+
+  </select>
+
+-->
+
+
+
+  <div style="margin-top: 20px; margin-bottom: 20px">
+
+    <button (click)="haeTietokanta()">Hae tietokanta</button>
+
+
+    <div class="junataulu">
+
+      <table>
+        <tr>
+          <th>Hakupäivä</th>
+          <th>Haku kellonaika</th>
+          <th>Junan nro</th>
+          <!--<th>Junan tyyppi</th>-->
+          <th>Lähtöasema</th>
+          <th>Saapumisasema</th>
+
+
+
+
+        </tr>
+
+
+        <tr *ngFor="let tk of tietokanta let i = index">
+
+          <!-->   <td>{{i+1}}</td> -->
+          <td>{{tk.haku_paiva}}</td>
+          <td>{{tk.haku_kello}}</td>
+          <td>{{tk.trainnumber}}</td>
+          <!--<td>{{tk.junatyyppi}}</td>-->
+          <td>{{tk.lahtoasema}}</td>
+          <td>{{tk.saapumisasema}}</td>
+          <td *ngIf="_authService.isadmin"><button title="Poista" (click)="delete(tk._id)">Poista rivi</button></td>
+
+        </tr>
+
+      </table>
+
+    </div>
+  </div>
+</div>

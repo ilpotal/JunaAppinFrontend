@@ -1,0 +1,61 @@
+<div class="container-fluid">
+
+
+
+
+  <div style="margin-top: 10px; margin-bottom: 20px">
+    <div class="locbutton">
+      <button class="btn btn-primary btn-circle btn-xl" (click)="getLocation()">{{!canshow.canshow?"Hae
+        sijaintisi":"Päivitä sijantisi"}}</button>
+
+      <!--Napissa näytetään "Hae sijaintisi", jos käyttäjä ei ole hakenut vielä sijaintiaan. Jos sijainti on haettu,
+napissa näytetään teksti "Päivitä sijantisi".-->
+
+    </div>
+    <br>
+    <!--<button (click)="setLocation()">Hae sijainti</button>-->
+
+
+  </div>
+
+</div>
+<div class="teksti">
+  <!--Rakenne näytetään vain, jos käyttäjä on hakenut sijaintinsa.-->
+  <div class="card">
+    <div class="card bg-info text-black">
+      <div *ngIf="canshow.canshow" class="card-body">
+        <p>Lähin asema {{lahinasema}}, välimatka: {{etaisyys}} km</p>
+        <p>Sijaintisi: leveyspiiri {{lat}}, pituuspiiri {{lon}}</p>
+
+
+      </div>
+      <div *ngIf="!canshow.canshow" class="card-body">
+        <p>Paina Hae sijaintisi -nappia, niin haen sijaintisi, sekä sinua lähinnä olevan rautatieaseman sijainnin.
+          Näytän lisäksi sekä sinun, että lähimmän rautatieaseman sijainnin kartalla. Haettuasi sijaintisi, löydät
+          valikosta Juna-aikataulut -valinnan, josta pääset etsimään asemalta lähteviä junavuoroja.</p>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="kartta">
+
+  <div class="liikenne">
+    <p><code
+        *ngIf="canshow.canshow">Liikennetietojen lähde <a href="https://tmfg.fi/">Fintraffic</a> / <a href="https://www.digitraffic.fi/">D</a><a href="https://www.digitraffic.fi/">igitraffic</a>, <a href="http://creativecommons.org/licenses/by/4.0/">CC 4.0 BY</a></code>
+      <!--Rakenne näytetään vain, jos käyttäjä on hakenut sijaintinsa.-->
+    </p>
+  </div>
+
+  <div class="map-container">
+
+    <div id="map"></div>
+  </div>
+
+
+
+</div>
