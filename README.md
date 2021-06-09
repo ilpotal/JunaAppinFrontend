@@ -24,9 +24,9 @@ Ulkoasukirjastona käytetään Bootstrapin versiota 4.6.0
 
 Olen pyrkinyt kommentoimaan koodin sekaan, jos koodissa on käytetty muuta kuin omaa koodiani. Vähäinen määrä lainattua koodia on kurssin tehtävistä hyödynnettyä koodia, omaan tarpeeseen soveltuvin osin muokattua.
 
-Kehityksessä käytin Gittiä, tosin tajusin, että sitä pitää käyttää, vasta loppumetreillä, mutta aika monta committia olen kuitenkin ehtinyt jo tehdä sekä serveripuolella, että frontend-puolella. Tarvittaessa minulta löytyy koodin aikaisempia kehitysversioita koneelta.
+Kehityksessä käytin Gittiä, tosin tajusin, että sitä pitää käyttää, vasta loppumetreillä, mutta aika monta committia olen kuitenkin ehtinyt jo tehdä sekä serveripuolella, että frontend-puolella. Suurin haaste Gitin osalta tuli kuitenkin siinä vaiheessa kun koodia olin siirtämässä GitHubiin, perinteinen git push ... ei toiminut, vaan jouduin ottamaan käyttöön GitHub Desktopin, mikä ei olisi ollut ongelma, jos se olisi ollut alusta alkaen käytössäni. Olisi varmasti ollut mahdollista pelastaa mukaan myös aiemman commitit Github Desktopilla siirtämään koodiin, mutta se jäi tekemättä. Joten nyt GitHubissa ei ole kovin montaa committia, mutta tarvittaessa minulta löytyy koodin aikaisempia kehitysversioita koneeltani.
 
-Palvelun MongoDB-tietokanta on MongoDB Atlas-palvelussa ja serveri on Herokussa. Frontend-sovellus on Firebasessa.
+Palvelun MongoDB-tietokanta on MongoDB Atlas-palvelussa ja serveri on Herokussa. Frontend-sovellus on Firebasessa osoitteessa: https://junaappi.web.app
 
 ## Huomioita kehityksestä
 
