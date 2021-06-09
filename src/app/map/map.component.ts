@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
 const shadowUrl = 'assets/marker-shadow.png';
+
 const iconDefault = L.icon({
   // käyttäjälle näytetään perusmarkkeri.
   iconRetinaUrl,
@@ -52,7 +53,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   lahinlatlng: L.LatLng;
   etaisyys: any;
   lahin_asema: any;
-  ekakerta: any;
+  //ekakerta: any;
 
   constructor(
     private _freeApiService: freeApiService,
@@ -64,6 +65,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.lahinlatlng = new L.LatLng(0, 0);
     this.lahin_lat = 0;
     this.lahin_lon = 0;
+    this.etaisyys = 0;
+    this.lahin_asema = '';
   }
   ngOnDestroy(): void {
     // Tämä yhdessä ngAfterViewInitin kanssa piti laittaa, jotta Leaflet ei herjannut konsolessa, että kartta on jo alustettu.
@@ -82,54 +85,57 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.map) {
       this.map.off();
       this.map.remove();
-
-      // haetaan käyttäjän ja aseman edellinen sijainti, jotta ne voidaan asettaa kartalle kun palataan karttasivulle.
-      this.latlng = this._freeApiService.kayt_sij;
-      this.lahinlatlng = this._freeApiService.asema_sij;
     }
-    // Jos sijainti on kertaalleen haettu kutsutaan this.setLocation() -metodia.
+
+    // Jos sijainti on kertaalleen haettu kutsutaan this.setLocation() -metodia, silloin kun  palataan map-komponenttiin. Tällöin kartalle saadaan muistissa oleva
+    // sijainti. Kun painetaan Päivitä sijainti tai Hae sijainti -nappia, silloin mennään suoraan getLocation()-metodiin ja haetaan uusi sijainti.
+
     if (this.canshow.canshow) {
       this.setLocation();
     }
   }
 
   private initMap(): void {
-    navigator.geolocation.getCurrentPosition((location) => {
-      // poimitaan käyttäjän sijainti ja haetaan sijantiin nähden lähin asema serverliltä.
-      this.haeLahimmatStationit(
-        location.coords.latitude,
-        location.coords.longitude
-      );
+    navigator.geolocation.getCurrentPosition(
+      (location) => {
+        this.latlng = new L.LatLng(
+          location.coords.latitude,
+          location.coords.longitude
+        );
 
-      // Sijainti viedään eri muuttujiin, näitä vois yhdistääkin...
+        this.lat = location.coords.latitude;
+        this.lon = location.coords.longitude;
 
-      this.latlng = new L.LatLng(
-        location.coords.latitude,
-        location.coords.longitude
-      );
+        this.map = L.map('map', {
+          center: [this.lat, this.lon],
+          zoom: 7,
+        });
 
-      this.lat = location.coords.latitude;
-      this.lon = location.coords.longitude;
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution:
+            '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+        }).addTo(this.map);
 
-      this.map = L.map('map', {
-        center: [this.lat, this.lon],
-        zoom: 7,
-      });
+        //Tällä voi säätää kartan zoomia.
+        L.control.scale().addTo(this.map);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution:
-          '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
-      }).addTo(this.map);
+        // haetaan käyttäjän sijantiin nähden lähin asema serveriltä.
+        this.haeLahimmatStationit(this.lat, this.lon);
 
-      //Tällä voi säätää kartan zoomia.
-      L.control.scale().addTo(this.map);
-
-      // Tämä on lisäominaisuus. Kun klikkaa kartalla, selain kertoo kyseisen kohdan koordinaatit.
-      this.map.on('click', function (e) {
-        alert(e.latlng);
-      });
-    });
+        // Tämä on lisäominaisuus. Kun klikkaa kartalla, selain kertoo kyseisen kohdan koordinaatit.
+        this.map.on('click', function (e) {
+          alert(e.latlng);
+        });
+      },
+      (error) => {
+        console.error(error);
+      },
+      {
+        enableHighAccuracy: true, // tällä pyritään parantamaan paikannuksen tarkkuutta.
+        maximumAge: 0, // ei oteta cachesta sijantia.
+      }
+    );
   }
 
   alustaKartta(lahin) {
@@ -153,8 +159,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(this.lahin_lat);
       console.log(this.lahin_asema);
       this.lahinlatlng = new L.LatLng(this.lahin_lon, this.lahin_lat);
-      this.vieStatus(); // kutsutaan this.vieStatus -metodia, jolla käydään viemässä joukko arvoja servicelle.
+      // kutsutaan this.vieStatus -metodia, jolla käydään viemässä joukko arvoja servicelle.
       this.alustaKartta(this.lahinlatlng); // kutsutaan metodia, joka vie markkerit kartalle.
+      this.vieStatus();
     });
   }
 
@@ -173,7 +180,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     this.canshow.canShow();
     // yllä käydään muuttamassa canshow -muuttujan arvon trueksi, jotta voidaan aktivoida Juna-aikataulut componentin linkki, koska sivun tarvitsemia tietoja
-    // on käytettävissä.
+    // on käytettävissä. Tämän arvoa hyödynnetään myös siinä kun map-componenttia ladataan muistiin, kun canshow-arvo on truee, silloin otetaan muistissa oleva
+    // sijainti, eikä haeta uutta sijaintia.
   }
 
   // Kun templaatilla olevaa Päivitä sijaintisi -nappia painaa kutsutaan tätä metodia, joka ensin poistaa vanhan kartan ja sitten
@@ -184,6 +192,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.map.off();
       this.map.remove();
     }
+
     this.initMap();
   }
 
@@ -211,7 +220,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         center: [this.lat, this.lon],
         zoom: 7,
       });
-      this.map.invalidateSize();
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
