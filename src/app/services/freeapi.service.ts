@@ -18,6 +18,7 @@ export class freeApiService {
   lat: any;
   lon: any;
   lahinasema_nimi: any;
+  timestamp: any;
 
   constructor(private httpclient: HttpClient) {
     this.lahinasema = '';
@@ -28,6 +29,7 @@ export class freeApiService {
     this.lat = '';
     this.lon = '';
     this.lahinasema_nimi = '';
+    this.timestamp = '';
   }
 
   private handleError(error: any): Observable<any> {
@@ -58,7 +60,8 @@ export class freeApiService {
     asLon,
     kayLat,
     kayLon,
-    lahinasema_nimi
+    lahinasema_nimi,
+    timestamp
   ) {
     this.lahinasema = asema;
     this.asema_sij = asema_sij;
@@ -68,6 +71,7 @@ export class freeApiService {
     this.lat = kayLat;
     this.lon = kayLon;
     this.lahinasema_nimi = lahinasema_nimi;
+    this.timestamp = timestamp;
 
     console.log('Taa' + this.lahinasema);
   }

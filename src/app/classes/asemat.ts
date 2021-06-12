@@ -5,4 +5,6 @@ export class Asema {
   'id': any;
   'valiasemat': any;
   'juna_tyyppi': any;
+  'lahtoaseman_lahtoaika': any;
+  'saapumisaseman_saapumisaika': any;
 }

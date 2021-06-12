@@ -53,10 +53,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   lahinlatlng: L.LatLng;
   etaisyys: any;
   lahin_asema: any;
-  //ekakerta: any;
+  timestamp: any;
+  refresh: boolean;
 
   constructor(
-    private _freeApiService: freeApiService,
+    public _freeApiService: freeApiService,
     public canshow: AuthService
   ) {
     this.latlng = new L.LatLng(0, 0);
@@ -67,6 +68,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.lahin_lon = 0;
     this.etaisyys = 0;
     this.lahin_asema = '';
+    this.refresh = false;
   }
   ngOnDestroy(): void {
     // Tämä yhdessä ngAfterViewInitin kanssa piti laittaa, jotta Leaflet ei herjannut konsolessa, että kartta on jo alustettu.
@@ -102,6 +104,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           location.coords.latitude,
           location.coords.longitude
         );
+        this.timestamp = location.timestamp;
+        let tstamp = new Date(this.timestamp);
+        this.timestamp =
+          tstamp.toLocaleDateString() +
+          ', kello ' +
+          tstamp.toLocaleTimeString();
 
         this.lat = location.coords.latitude;
         this.lon = location.coords.longitude;
@@ -124,6 +132,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         this.haeLahimmatStationit(this.lat, this.lon);
 
         // Tämä on lisäominaisuus. Kun klikkaa kartalla, selain kertoo kyseisen kohdan koordinaatit.
+
         this.map.on('click', function (e) {
           alert(e.latlng);
         });
@@ -144,6 +153,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     marker_sina.setLatLng([this.latlng.lat, this.latlng.lng]).addTo(this.map);
 
     marker_juna.setLatLng(lahin).addTo(this.map);
+    this.refresh = false;
   }
 
   haeLahimmatStationit(lat, lon) {
@@ -156,8 +166,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.lahin_lon = this.lahimmat[0].leveys;
       this.etaisyys = this.lahimmat[0].etaisyys;
       this.etaisyys = parseFloat(this.etaisyys).toFixed(2);
-      console.log(this.lahin_lat);
-      console.log(this.lahin_asema);
+      //console.log(this.lahin_lat);
+      //console.log(this.lahin_asema);
       this.lahinlatlng = new L.LatLng(this.lahin_lon, this.lahin_lat);
       // kutsutaan this.vieStatus -metodia, jolla käydään viemässä joukko arvoja servicelle.
       this.alustaKartta(this.lahinlatlng); // kutsutaan metodia, joka vie markkerit kartalle.
@@ -167,7 +177,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   vieStatus() {
     // tällä viedään joukko arvoja servicelle, josta niitä voi hyödyntää muuallakin sovelluksessa.
-    console.log(this.lahin_asema);
+    //console.log(this.lahin_asema);
     this._freeApiService.tallennaStatus(
       this.lahin_asema,
       this.lahinlatlng, // lähimmän aseman sijainti (pituus ja leveys)
@@ -176,7 +186,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.lahin_lon, // lähimmän aseman sijainnin pituuspiiri
       this.lat, // Käyttäjän sijainnin leveyspiiri
       this.lon, // Kättäjän sijainnin pituuspiiri
-      this.lahinasema // lähimmän aseman nimi
+      this.lahinasema, // lähimmän aseman nimi
+      this.timestamp
     );
     this.canshow.canShow();
     // yllä käydään muuttamassa canshow -muuttujan arvon trueksi, jotta voidaan aktivoida Juna-aikataulut componentin linkki, koska sivun tarvitsemia tietoja
@@ -188,6 +199,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   //muodostaa sen sijainteineen uudelleen
 
   getLocation() {
+    this.refresh = true;
     if (this.map) {
       this.map.off();
       this.map.remove();
@@ -201,11 +213,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   // jolloin kutsutaan yllä olevaa metodia.
 
   setLocation() {
+    //console.log('setLocation');
     navigator.geolocation.getCurrentPosition((location) => {
       this.haeLahimmatStationit(
         this._freeApiService.lat,
         this._freeApiService.lon
       );
+      this.timestamp = this._freeApiService.timestamp;
 
       this.latlng = new L.LatLng(
         this._freeApiService.lat,
@@ -214,12 +228,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.lat = this._freeApiService.lat;
       this.lon = this._freeApiService.lon;
 
-      console.log(this.lahin_lat);
+      //console.log(this.lahin_lat);
 
       this.map = L.map('map', {
         center: [this.lat, this.lon],
         zoom: 7,
       });
+      //this.map.invalidateSize();
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,

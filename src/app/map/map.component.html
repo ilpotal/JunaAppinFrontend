@@ -6,10 +6,10 @@
   <div style="margin-top: 10px; margin-bottom: 20px">
     <div class="locbutton">
       <button class="btn btn-primary btn-circle btn-xl" (click)="getLocation()">{{!canshow.canshow?"Hae
-        sijaintisi":"Päivitä sijantisi"}}</button>
+        sijaintisi":"Päivitä sijaintisi"}}</button>
 
       <!--Napissa näytetään "Hae sijaintisi", jos käyttäjä ei ole hakenut vielä sijaintiaan. Jos sijainti on haettu,
-napissa näytetään teksti "Päivitä sijantisi".-->
+napissa näytetään teksti "Päivitä sijaintisi".-->
 
     </div>
     <br>
@@ -19,6 +19,10 @@ napissa näytetään teksti "Päivitä sijantisi".-->
   </div>
 
 </div>
+
+
+
+<div style="color:green" *ngIf="refresh">Tietoja haetaan, ole hyvä ja odota...</div>
 <div class="teksti">
   <!--Rakenne näytetään vain, jos käyttäjä on hakenut sijaintinsa.-->
   <div class="card">
@@ -26,13 +30,23 @@ napissa näytetään teksti "Päivitä sijantisi".-->
       <div *ngIf="canshow.canshow" class="card-body">
         <p>Lähin asema {{lahinasema}}, välimatka: {{etaisyys}} km</p>
         <p>Sijaintisi: leveyspiiri {{lat}}, pituuspiiri {{lon}}</p>
+        <div class="koe">
+          <p>Sijainnin aikaleima {{timestamp}}</p>
+          <span class="tooltiptext">Huomaathan, että sovellus saa sijantitiedot päätelaitteeltasi. Sijainti ei päivity
+            kaikissa päätelaitteissa reaaliajassa. Tämä vuoksi sijanti ei välttämättä aina päivity painettuasi Päivitä
+            sijaintisi
+            -nappia tai avattuasi sovelluksen uudelleen. Päivämäärä ja kellonaika kertovat minkä ajankohdan sijainnin
+            laite on ilmoittanut sovellukselle.</span>
+        </div>
+
 
 
       </div>
       <div *ngIf="!canshow.canshow" class="card-body">
-        <p>Paina Hae sijaintisi -nappia, niin haen sijaintisi, sekä sinua lähinnä olevan rautatieaseman sijainnin.
-          Näytän lisäksi sekä sinun, että lähimmän rautatieaseman sijainnin kartalla. Haettuasi sijaintisi, löydät
-          valikosta Juna-aikataulut -valinnan, josta pääset etsimään asemalta lähteviä junavuoroja.</p>
+        <p>Paina Hae sijaintisi -nappia. Haen sijantisi ja lähinnä olevan rautatieaseman sijainnin ja näytän ne
+          kartalla. Haettuasi sijaintisi, löydät valikosta Juna-aikataulut -valinnan, josta pääset etsimään asemalta
+          lähteviä
+          junavuoroja.</p>
 
 
       </div>
@@ -41,7 +55,8 @@ napissa näytetään teksti "Päivitä sijantisi".-->
 </div>
 
 <br>
-
+<br>
+<br>
 <div class="kartta">
 
   <div class="liikenne">

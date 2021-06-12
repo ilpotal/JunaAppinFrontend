@@ -1,3 +1,27 @@
+.koe {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.koe .tooltiptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+
+  position: absolute;
+  z-index: 999;
+}
+
+.koe:hover .tooltiptext {
+  visibility: visible;
+}
 .map-container {
   width: 100%;
   display: flex;

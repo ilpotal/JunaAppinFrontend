@@ -52,6 +52,16 @@ export class JunaComponent implements OnInit, AfterViewInit {
       //kutsutaan servicen kautta serveriä. asema -parametri kertoo aseman minne menevistä junavuoroista käyttäjä on kiinnostunu.
       //serveri tarvitsee toisena parametrina lähtöaseman, se lisätään kutsuun _freeApiServicessä
       this.lahtevat = data; // vastaus sijoitetaan this.lahtevat -taulukkoon.
+
+      for (let i = 0; i < this.lahtevat.length; i++) {
+        let lahtoaika = new Date(this.lahtevat[i].lahtoaseman_lahtoaika);
+        this.lahtevat[i].lahtoaseman_lahtoaika = lahtoaika.toLocaleTimeString();
+        let saapumisaika = new Date(
+          this.lahtevat[i].saapumisaseman_saapumisaika
+        );
+        this.lahtevat[i].saapumisaseman_saapumisaika =
+          saapumisaika.toLocaleTimeString();
+      }
     });
 
     this.showTitles = true; // näytetään otsikot.
@@ -76,6 +86,9 @@ export class JunaComponent implements OnInit, AfterViewInit {
     for (let asemak of this.lahtevat) {
       if (asemak.id === valiasemaId) {
         for (let valiasema of asemak.valiasemat) {
+          let lahtoaika = new Date(valiasema.valiaseman_tapahtumaaika);
+          valiasema.valiaseman_tapahtumaaika = lahtoaika.toLocaleTimeString();
+
           this.valiasemat.push(valiasema); // valiasemat-tauluun kerätään ehdon täyttävät väliasemat.
         }
       }
