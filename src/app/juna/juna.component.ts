@@ -54,13 +54,16 @@ export class JunaComponent implements OnInit, AfterViewInit {
       this.lahtevat = data; // vastaus sijoitetaan this.lahtevat -taulukkoon.
 
       for (let i = 0; i < this.lahtevat.length; i++) {
-        let lahtoaika = new Date(this.lahtevat[i].lahtoaseman_lahtoaika);
-        this.lahtevat[i].lahtoaseman_lahtoaika = lahtoaika.toLocaleTimeString();
-        let saapumisaika = new Date(
-          this.lahtevat[i].saapumisaseman_saapumisaika
-        );
-        this.lahtevat[i].saapumisaseman_saapumisaika =
-          saapumisaika.toLocaleTimeString();
+        if (this.lahtevat[i].lahtoaseman_lahtoaika) {
+          let lahtoaika = new Date(this.lahtevat[i].lahtoaseman_lahtoaika);
+          this.lahtevat[i].lahtoaseman_lahtoaika =
+            lahtoaika.toLocaleTimeString();
+          let saapumisaika = new Date(
+            this.lahtevat[i].saapumisaseman_saapumisaika
+          );
+          this.lahtevat[i].saapumisaseman_saapumisaika =
+            saapumisaika.toLocaleTimeString();
+        }
       }
     });
 

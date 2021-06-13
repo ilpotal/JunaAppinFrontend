@@ -23,6 +23,9 @@ napissa näytetään teksti "Päivitä sijaintisi".-->
 
 
 <div style="color:green" *ngIf="refresh">Tietoja haetaan, ole hyvä ja odota...</div>
+<div style="color:crimson" *ngIf="nopermission">Tietoja ei voi hakea. Jos olet estänyt sijaintitiedon käytön ja haluat
+  käyttää sovellusta, salli sijaintitietojen käyttö selaimesi asetuksissa ja avaa sovellus uudelleen.</div>
+<div style="color:crimson" *ngIf="nonavigation">Selain ei tue sijaintitietoja. Tietoja ei voi hakea.</div>
 <div class="teksti">
   <!--Rakenne näytetään vain, jos käyttäjä on hakenut sijaintinsa.-->
   <div class="card">

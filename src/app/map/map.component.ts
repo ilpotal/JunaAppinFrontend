@@ -55,6 +55,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   lahin_asema: any;
   timestamp: any;
   refresh: boolean;
+  nonavigation: boolean;
+  nopermission: boolean;
 
   constructor(
     public _freeApiService: freeApiService,
@@ -69,6 +71,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.etaisyys = 0;
     this.lahin_asema = '';
     this.refresh = false;
+    this.nonavigation = false;
+    this.nopermission = false;
   }
   ngOnDestroy(): void {
     // Tämä yhdessä ngAfterViewInitin kanssa piti laittaa, jotta Leaflet ei herjannut konsolessa, että kartta on jo alustettu.
@@ -98,53 +102,62 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initMap(): void {
-    navigator.geolocation.getCurrentPosition(
-      (location) => {
-        this.latlng = new L.LatLng(
-          location.coords.latitude,
-          location.coords.longitude
-        );
-        this.timestamp = location.timestamp;
-        let tstamp = new Date(this.timestamp);
-        this.timestamp =
-          tstamp.toLocaleDateString() +
-          ', kello ' +
-          tstamp.toLocaleTimeString();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (location) => {
+          this.latlng = new L.LatLng(
+            location.coords.latitude,
+            location.coords.longitude
+          );
+          this.nopermission = false;
+          this.nonavigation = false;
+          this.timestamp = location.timestamp;
+          let tstamp = new Date(this.timestamp);
+          this.timestamp =
+            tstamp.toLocaleDateString() +
+            ', kello ' +
+            tstamp.toLocaleTimeString();
 
-        this.lat = location.coords.latitude;
-        this.lon = location.coords.longitude;
+          this.lat = location.coords.latitude;
+          this.lon = location.coords.longitude;
 
-        this.map = L.map('map', {
-          center: [this.lat, this.lon],
-          zoom: 7,
-        });
+          this.map = L.map('map', {
+            center: [this.lat, this.lon],
+            zoom: 7,
+          });
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution:
-            '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
-        }).addTo(this.map);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution:
+              '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+          }).addTo(this.map);
 
-        //Tällä voi säätää kartan zoomia.
-        L.control.scale().addTo(this.map);
+          //Tällä voi säätää kartan zoomia.
+          L.control.scale().addTo(this.map);
 
-        // haetaan käyttäjän sijantiin nähden lähin asema serveriltä.
-        this.haeLahimmatStationit(this.lat, this.lon);
+          // haetaan käyttäjän sijantiin nähden lähin asema serveriltä.
+          this.haeLahimmatStationit(this.lat, this.lon);
 
-        // Tämä on lisäominaisuus. Kun klikkaa kartalla, selain kertoo kyseisen kohdan koordinaatit.
+          // Tämä on lisäominaisuus. Kun klikkaa kartalla, selain kertoo kyseisen kohdan koordinaatit.
 
-        this.map.on('click', function (e) {
-          alert(e.latlng);
-        });
-      },
-      (error) => {
-        console.error(error);
-      },
-      {
-        enableHighAccuracy: true, // tällä pyritään parantamaan paikannuksen tarkkuutta.
-        maximumAge: 0, // ei oteta cachesta sijantia.
-      }
-    );
+          this.map.on('click', function (e) {
+            alert(e.latlng);
+          });
+        },
+        (error) => {
+          console.error(error);
+          this.refresh = false;
+          this.nopermission = true;
+        },
+        {
+          enableHighAccuracy: true, // tällä pyritään parantamaan paikannuksen tarkkuutta.
+          maximumAge: 0, // ei oteta cachesta sijantia.
+        }
+      );
+    } else {
+      this.refresh = false;
+      this.nonavigation = true;
+    }
   }
 
   alustaKartta(lahin) {
@@ -214,6 +227,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setLocation() {
     //console.log('setLocation');
+
     navigator.geolocation.getCurrentPosition((location) => {
       this.haeLahimmatStationit(
         this._freeApiService.lat,
