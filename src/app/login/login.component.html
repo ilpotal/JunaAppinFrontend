@@ -8,7 +8,7 @@
   <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
     <div class="form-group">
       <label for="tunnus">Anna käyttäjätunnus:</label>
-      <input type="text" class="form-control" name="tunnus" ngModel minlength="6" required />
+      <input type="text" class="form-control" name="tunnus" ngModel minlength="8" required />
       <!-- jos lomakkeella ei ole required-virhettä tai se on koskematon niin span on piilotettu-->
       <span style="color: red" [hidden]="!f.form.hasError('required', 'tunnus')|| f.pristine">Tunnus
         vaaditaan</span>
